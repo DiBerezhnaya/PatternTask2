@@ -57,9 +57,13 @@ public class TestMode {
         $("[type='password']").val(notRegistration.getPassword());
         $("[class='button__text']").click();
         $x("//div[@data-test-id='error-notification']").should(visible);
-        $x(".//div[@class='notification__content']").should(text("Неверно указан логин или пароль"));
+        $x(".//div[@class='notification__content']")
+                .shouldBe(visible)
+                .should(text("Неверно указан логин или пароль"));
         $x(".//button").click();
-        $x("//div[@data-test-id='error-notification']").should(hidden);
+        $x("//div[@data-test-id='error-notification']")
+                .should(visible)
+                .should(text("Неверно указан логин или пароль"));
     }
 
 }
