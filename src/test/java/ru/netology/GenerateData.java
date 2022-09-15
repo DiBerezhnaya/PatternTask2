@@ -2,27 +2,33 @@ package ru.netology;
 
 import com.github.javafaker.Faker;
 
+import static ru.netology.Request.registration;
+
 public class GenerateData {
-
-    public static LoginDetailsInfo generateInfo(boolean status) {
-        return new LoginDetailsInfo(Login(), Password(), userStatus(status));
-    }
-
-    public static String Login() {
+    public static String getRandomLogin() {
         Faker faker = new Faker();
-        return faker.name().username();
+       return faker.name().username();
     }
 
-    public static String Password() {
+    public static String getRandomPassword() {
         Faker faker = new Faker();
         return faker.internet().password();
     }
 
-    public static String userStatus(boolean status) {
-        if (status) {
-            return "active";
-        } else {
-            return "blocked";
+    public static class Registration {
+        private Registration() {
+        }
+
+        public static LoginDetailsInfo getUser(String status) {
+            var user = new LoginDetailsInfo(getRandomLogin(), getRandomPassword(), status);
+            return user;
+        }
+
+        public static LoginDetailsInfo getRegisteredUser(String status) {
+            var registeredUser = getUser(status);
+            registration(registeredUser);
+            return registeredUser;
         }
     }
+
 }

@@ -1,10 +1,12 @@
 package ru.netology;
 
-import com.google.gson.Gson;
+import com.github.javafaker.Faker;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
+
+import java.util.Locale;
 
 import static io.restassured.RestAssured.given;
 
@@ -17,14 +19,16 @@ public class Request {
             .setContentType(ContentType.JSON)
             .log(LogDetail.ALL)
             .build();
+    private static final Faker faker = new Faker(new Locale("en"));
 
-    public static void registration(LoginDetailsInfo loginDetailsInfo) {
-        Gson gson = new Gson();
-        String info = gson.toJson(loginDetailsInfo);
+    private Request() {
+    }
+
+    public static void registration(LoginDetailsInfo user) {
 
         given()
                 .spec(requestSpec)
-                .body(info)
+                .body(user)
                 .when()
                 .post("/api/system/users")
                 .then()
